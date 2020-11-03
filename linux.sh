@@ -4,6 +4,11 @@
 OLDIFS=$IFS
 IFS=,
 
+# 一時ディレクトリ生成
+sourcePath=`mktemp -d`
+
+fileName=$(date "+%Y%m%d_%H%M%S")_dcs
+
 # リストファイル定義
 textlist=$(cat <<EOS
 1-1,test1,cmd,echo a
@@ -11,6 +16,7 @@ textlist=$(cat <<EOS
 EOS
 )
 
+echo $textlist > $sourcePath/textlist.txt
 
 # 行ループ
 while read -a arr; do
@@ -27,3 +33,9 @@ done < <(echo "$textlist")
 
 # IFS戻し
 IFS=$OLDIFS
+
+# 一時ファイル処理
+tar czvf /tmp/${fileName}.tar.gz ${sourcePath}
+
+# 削除 
+rm -Rf ${sourcePath}
