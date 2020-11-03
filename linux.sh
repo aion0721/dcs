@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# IFS編集
 OLDIFS=$IFS
 IFS=,
 
+# リストファイル定義
 textlist=$(cat <<EOS
 1-1,test1,cmd,echo a
 1-2,test2,cmd,echo b
@@ -10,6 +12,7 @@ EOS
 )
 
 
+# 行ループ
 while read -a arr; do
 
 echo "-------- Loop -------"
@@ -22,4 +25,5 @@ echo "arr[d]: $(eval ${arr[3]})"
 
 done < <(echo "$textlist")
 
+# IFS戻し
 IFS=$OLDIFS
